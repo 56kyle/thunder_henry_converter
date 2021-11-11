@@ -5,6 +5,7 @@ import os
 import rename
 import sys
 
+"""A script used to replace ModdedSurvivor with the correct version of a name that is provided as input"""
 
 thunder_henry_replacements = {
     'ModdedSurvivorCaps': None,

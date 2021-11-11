@@ -3,6 +3,9 @@ import rename
 import sys
 
 
+"""A script that is used to convert all instances/variants of ThunderHenry into ModdedSurvivor + a descriptor of the
+casing and connection of words"""
+
 # A list of replacements that will standardize the naming of the ThunderHenry repository
 thunder_henry_replacements = {
     'THUNDERHENRY': 'ModdedSurvivorCaps',

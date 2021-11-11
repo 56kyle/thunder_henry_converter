@@ -2,6 +2,7 @@
 import sys
 import os
 
+"""A script that is used to replace all instances of a word in folder names, file names, and inside of files"""
 
 # Walk over all folders and files at the provided path
 # and rename all folders and files so that any occurrence
