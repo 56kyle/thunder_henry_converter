@@ -15,15 +15,15 @@ def rename(path, original_name, new_name):
 
                 # if the file name ends with .meta, then delete the file
                 if original_file.endswith('.meta'):
-                    try:
-                        os.remove(original_file)
-                    except Exception as e:
-                        print(f'\t\tError: {e}')
+                    pass
                 else:
                     if original_name in original_file:
-                        print(f'Renaming original file - {original_file}')
                         os.rename(original_file, new_file)
+                        print(f'Renaming original file - {original_file}')
                         print(f'\t{new_file}')
+
+                        take_care_of_meta_file(original_file, new_file)
+
                     try:
                         # replace all occurrences of the original name inside of the file with the new name
                         with open(new_file, 'r') as f:
@@ -38,13 +38,30 @@ def rename(path, original_name, new_name):
                 print(f'\tError: {e}')
 
         for folder in dirs:
+            original_folder = os.path.join(root, folder)
+            new_folder = os.path.join(root, folder.replace(original_name, new_name))
             try:
                 if original_name in folder:
-                    os.rename(os.path.join(root, folder), os.path.join(root, folder.replace(original_name, new_name)))
-                    print(f'Renaming original folder - {os.path.join(root, folder)}')
-                    print(f'\t{os.path.join(root, folder.replace(original_name, new_name))}')
+                    os.rename(original_folder, new_folder)
+                    print(f'Renaming original folder - {original_folder}')
+                    print(f'\t{new_folder}')
+
+                    take_care_of_meta_file(original_folder, new_folder)
+
             except Exception as e:
                 print(f'\tError: {e}')
+
+
+# renames the original_file + '.meta' to the new_file + '.meta'
+def take_care_of_meta_file(original_file, new_file):
+    try:
+        original_meta_file = original_file + '.meta'
+        new_meta_file = new_file + '.meta'
+        os.rename(original_meta_file, new_meta_file)
+        print(f'Renaming original meta file - {original_meta_file}')
+        print(f'\t{new_meta_file}')
+    except Exception as e:
+        print(f'\tError: {e}')
 
 
 # have it so that typing "python rename.py foo bar baz" will call rename(os.path.join(os.getcwd(), "foo"), "bar", "baz")
