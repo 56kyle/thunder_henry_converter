@@ -23,7 +23,9 @@ thunder_henry_replacements = {
 }
 
 
-def rename_repo(dir_path, new_name):
+def rename_survivor(dir_path, new_name):
+    new_name = inflection.underscore(new_name)
+
     for original_name in thunder_henry_replacements.keys():
         print(original_name)
         if '_' in new_name:
@@ -73,12 +75,12 @@ def rename_repo(dir_path, new_name):
 if __name__ == '__main__':
 
     if len(sys.argv) == 2:
-        rename_repo(os.getcwd(), sys.argv[1])
+        rename_survivor(os.getcwd(), sys.argv[1])
 
     elif len(sys.argv) == 3:
         if sys.argv[1].startswith('.'):
-            rename_repo(os.path.join(os.getcwd(), sys.argv[1]), sys.argv[2])
+            rename_survivor(os.path.join(os.getcwd(), sys.argv[1]), sys.argv[2])
         else:
-            rename_repo(sys.argv[1], sys.argv[2])
+            rename_survivor(sys.argv[1], sys.argv[2])
 
     input('Press enter to leave')
