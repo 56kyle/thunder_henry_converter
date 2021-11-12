@@ -38,13 +38,15 @@ def create_survivor(unity_project_path, survivor_name):
 
     rename_survivor(new_survivor, survivor_name)
 
-    input('Please open up your project in Unity to generate new .meta files for your new survivor.\n'
-          'When Unity is done loading, please close it and press enter to continue...')
+    input('\n\n\n\nPlease open up your project in Unity to generate new .meta files for your new survivor.\n'
+          'When Unity is done loading, please close it.\n'
+          'Press enter to continue...')
 
     link_survivor(unity_project_path, survivor_name)
 
-    input('Please open your project in Unity once more to finalize some files that may have been generated.\n'
-          'When Unity is done loading, please close it again. (This is the last time this will be needed)...')
+    input('\n\n\n\nPlease open your project in Unity once more to finalize some files that may have been generated.\n'
+          'When Unity is done loading, please close it again. (This is the last time this will be needed)\n'
+          'Press enter when you are ready to continue...')
 
     rename_survivor(new_survivor, survivor_name)
 
@@ -57,5 +59,5 @@ if __name__ == '__main__':
             raise Exception('Usage: ./create_survivor.py <unity_project_path> <survivor_name>')
     except Exception as e:
         print(e)
-    input('Press enter to exit...')
+    input('\n\n\n\nPress enter to exit...')
 

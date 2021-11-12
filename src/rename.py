@@ -34,9 +34,11 @@ def rename(path, original_name, new_name):
                                 print(f'Modifying File - {new_file}')
                             f.write(content.replace(original_name, new_name))
                     except Exception as e:
-                        print(f'\t\tError: {e}')
+                        pass
+                        #print(f'\t\tError: {e}')
             except Exception as e:
-                print(f'\tError: {e}')
+                pass
+                #print(f'\tError: {e}')
 
         for folder in dirs:
             original_folder = os.path.join(root, folder)

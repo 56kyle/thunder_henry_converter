@@ -68,4 +68,4 @@ if __name__ == '__main__':
             raise Exception('Usage: link_survivor.py <unity_project_path> <survivor_name>')
     except Exception as e:
         print(e)
-    input('Press enter to exit...')
+    input('\n\n\n\nPress enter to exit...')
