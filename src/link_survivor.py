@@ -2,6 +2,7 @@ import inflection
 import json
 import os
 import sys
+import yaml
 
 from analyze import get_guids
 
@@ -15,7 +16,7 @@ def link_survivor(unity_project_path, survivor_name):
     new_survivor_folder = os.path.join(unity_project_path, 'Assets', 'Survivors', inflection.camelize(survivor_name))
     new_guids = get_guids(new_survivor_folder)
 
-    old_survivor_folder = os.path.join(unity_project_path, 'Assets', 'Survivors', 'ModdedSurvivorCamel')
+    old_survivor_folder = os.path.join(unity_project_path, 'Assets', 'Survivors', 'ThunderHenry')
     old_guids = get_guids(old_survivor_folder)
 
     # walk over all files and folders in the survivor folder
@@ -41,12 +42,18 @@ def link_survivor(unity_project_path, survivor_name):
                 with open(new_path, 'w') as new_file:
                     new_file.write(new_content)
             except Exception as e:
-                print(f'Error updating {new_path}: {e}')
+                #print(f'Error updating {new_path}: {e}')
+                pass
 
-    add_to_editor(unity_project_path, survivor_name)
+    try:
+        add_to_editor(unity_project_path, survivor_name)
+    except Exception as e:
+        pass
+    alter_manifest(old_survivor_folder, old_guids, new_survivor_folder, new_guids, survivor_name)
 
 
 def add_to_editor(unity_project_path, survivor_name):
+    print('Adding char to editor list')
     if not os.path.isdir(unity_project_path):
         raise Exception('Unity project path does not exist')
     editor_asmdef = os.path.join(unity_project_path, 'Assets', 'Editor', 'EditorAssembly.asmdef')
@@ -59,6 +66,27 @@ def add_to_editor(unity_project_path, survivor_name):
         with open(editor_asmdef, 'w') as editor_file:
             json.dump(data, editor_file, indent=4)
 
+def alter_manifest(old_survivor_folder, old_guids, new_survivor_folder, new_guids, survivor_name):
+    print('Altering manifest')
+    old_asset_stage = os.path.join(old_survivor_folder, 'Stage.asset')
+    new_asset_stage = os.path.join(new_survivor_folder, 'Stage.asset')
+    old_manifest = os.path.join(old_survivor_folder, 'ThunderHenryManifest.asset')
+    new_manifest = os.path.join(new_survivor_folder, inflection.camelize(survivor_name) + 'Manifest.asset')
+    old_guid = old_guids[old_manifest]
+    new_guid = new_guids[new_manifest]
+    try:
+        with open(old_asset_stage, 'r') as old_file:
+            original_content = old_file.read()
+            new_content = original_content.replace(old_guid, new_guid, 1)
+
+        with open(new_asset_stage, 'w') as new_file:
+            new_file.write(new_content)
+
+    except Exception as e:
+        print('------------------')
+        print(f'Error loading {new_asset_stage}: {e}')
+        print('------------------')
+
 
 if __name__ == '__main__':
     try:
@@ -67,5 +95,7 @@ if __name__ == '__main__':
         else:
             raise Exception('Usage: link_survivor.py <unity_project_path> <survivor_name>')
     except Exception as e:
-        print(e)
+        print('--------------')
+        print(f'Error: {e}')
+        print('--------------')
     input('\n\n\n\nPress enter to exit...')

@@ -11,11 +11,13 @@ def get_guids(base_path):
     for root, dirs, files in os.walk(base_path):
         for file in files:
             path = os.path.join(root, file)
+            if 'stage' in path:
+                print(path)
             if file.endswith('.meta'):
                 # skip meta files
                 continue
             guid = get_meta_info(path)
-            paths[guid] = path
+            paths[path] = guid
 
         for folder in dirs:
             path = os.path.join(root, folder)
@@ -25,13 +27,16 @@ def get_guids(base_path):
 
 
 def get_meta_info(path):
-    meta_path = path + '.meta'
-    if os.path.isfile(meta_path):
-        # read the meta file as a yaml file
-        with open(meta_path, 'r') as f:
-            data = yaml.load(f, Loader=yaml.FullLoader)
-            guid = data['guid']
-            return guid
+    try:
+        meta_path = path + '.meta'
+        if os.path.isfile(meta_path):
+            # read the meta file as a yaml file
+            with open(meta_path, 'r') as f:
+                data = yaml.load(f, Loader=yaml.FullLoader)
+                guid = data['guid']
+                return guid
+    except Exception as e:
+        print(f'Error: {e}')
 
 
 if __name__ == '__main__':
