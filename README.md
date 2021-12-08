@@ -2,6 +2,7 @@
 A set of scripts used to convert the naming inside the Thunder Henry repo to the name you want for your survivor
 
 ## Usage
+(Made for use with https://github.com/Vale-X/Thunderkit-Henry)
 Just as a heads up you can ignore most of the errors thrown by the script. Most were just used for debugging and are accepted try statements.
 
 #### Initial Setup
